@@ -13,9 +13,10 @@ namespace CalculadoraVladi
     public partial class Form1 : Form
     {
         // Declaracion de las variables
-        private double valor1;
-        private double valor2;
-        private double resultado;
+        private double valor1; // Representa el primer número
+        private double valor2; // Representa el segundo número
+        private double resultado; // Guardará el resultado de las operaciones
+        private int operacion; // Variable para manejar los casos con switch() para poder diferenciar la suma, resta, multiplicación y división
 
 
         public Form1()
@@ -23,6 +24,9 @@ namespace CalculadoraVladi
             InitializeComponent();
         }
 
+
+
+        #region Bótones de Números y Punto
         private void btn0_Click(object sender, EventArgs e)
         {
             txtDisplay.Text = txtDisplay.Text + "0";
@@ -82,25 +86,103 @@ namespace CalculadoraVladi
 
         }
 
-        private void btnResta_Click(object sender, EventArgs e)
+        private void btnPunto_Click(object sender, EventArgs e)
         {
-
+            txtDisplay.Text = txtDisplay.Text + ".";
         }
 
+        #endregion
+
+
+
+        #region Botón de Limpiar
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtDisplay.Text = "";
         }
+        #endregion
 
-        private void btnIgual_Click(object sender, EventArgs e)
-        {
 
-        }
+      
 
+        #region Botón de Suma
         private void btnSuma_Click(object sender, EventArgs e)
         {
+            operacion = 1;
             valor1 = Convert.ToDouble(txtDisplay.Text);
             txtDisplay.Text = "";
         }
+        #endregion
+
+
+        #region Botón de Resta
+        private void btnResta_Click(object sender, EventArgs e)
+        {
+            // Boton de la resta
+            operacion = 2;
+            valor1 = Convert.ToDouble(txtDisplay.Text);
+            txtDisplay.Text = "";
+        }
+        #endregion
+
+
+
+        #region Botón de Multiplicación
+        private void btnMultiplicacion_Click(object sender, EventArgs e)
+        {
+            operacion = 3;
+            valor1 = Convert.ToDouble((txtDisplay.Text));
+            txtDisplay.Text = "";
+        }
+        #endregion
+
+
+        #region Botón de División
+        private void btnDivision_Click(object sender, EventArgs e)
+        {
+            operacion = 4;
+            valor1 = Convert.ToDouble((txtDisplay.Text));
+            txtDisplay.Text = "";
+        }
+        #endregion
+
+
+        #region Botón de Igual
+        private void btnIgual_Click(object sender, EventArgs e)
+        {
+            valor2 = Convert.ToDouble(txtDisplay.Text);
+            switch (operacion) // Manejo de un menú
+            {
+                case 1: // Caso 1 para la suma
+                    resultado = valor1 + valor2;
+                    resultado = Math.Round(resultado,2); // Se aproxima y muestra 2 decimales
+                    break;
+                case 2: // Caso 2 para la resta
+                    resultado = valor1 - valor2;
+                    resultado = Math.Round(resultado, 2); // Se aproxima y muestra 2 decimales
+                    break;
+                case 3: // Caso 3 para la multipliación
+                    resultado = valor1 * valor2;
+                    resultado = Math.Round(resultado,2);// Se aproxima y muestra 2 decimales
+                    break;
+                case 4: // Caso 4 para la resta
+                    if(valor2 == 0) // Una condición para evitar la división con 0.
+                    {
+                        // Si el segundo número es 0 entonces se muestra el mensaje de error
+                        MessageBox.Show("No se puede dividir con 0.", "Indeterminacion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else // Si el segundo número no es 0, entonces se procede a dividir.
+                    {
+                        resultado = valor1 / valor2;
+                        resultado = Math.Round(resultado,2);// Se aproxima y muestra 2 decimales
+
+                    }
+                    break;
+            }
+            txtDisplay.Text = resultado.ToString();
+        }
+        #endregion
+
+
     }
 }
